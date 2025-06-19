@@ -1,0 +1,1 @@
+# og-storage-node-one-command-scipt-
