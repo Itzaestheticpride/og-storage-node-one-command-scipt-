@@ -1,7 +1,7 @@
 #!/bin/bash
 exec > >(tee -i og-node-setup.log)
 exec 2>&1
-echo " Welcome" 
+echo "✨ Welcome to the OG Node Setup Wizard ✨"
 cat << "EOF"
  _           _            _ _                                _   _     
 | |__   __ _| |__   __ _ (_|_)   ___  _ __    _ __ ___   ___| |_| |__  
@@ -11,16 +11,16 @@ cat << "EOF"
                        |__/                                            
 
 EOF
-echo "🧹 Deleting old node files..."
-sudo rm -rf 0g-storage-node
 if [[ $EUID -ne 0 ]]; then 
     echo 'please be a root user. Run "sudo -i" to be a root user '
     exit 1
 else 
-    echo "📦 Downloading dependencies..."
+echo "📦 Downloading dependencies..."
     sudo apt install curl iptables build-essential git wget lz4 jq make cmake gcc nano automake autoconf tmux htop nvme-cli libgbm1 pkg-config libssl-dev libleveldb-dev tar clang bsdmainutils ncdu unzip libleveldb-dev screen ufw -y 
 
 fi
+echo "🧹 Deleting old node files..."
+sudo rm -rf 0g-storage-node
 
 echo "installing rustup"
 curl https://sh.rustup.rs -sSf | sh && \
