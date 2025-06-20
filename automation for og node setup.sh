@@ -23,7 +23,7 @@ echo "🧹 Deleting old node files..."
 sudo rm -rf 0g-storage-node
 
 echo "installing rustup"
-curl https://sh.rustup.rs -sSf | sh && \
+curl https://sh.rustup.rs -sSf | sh -s -- -y
 echo "exporting to the shell" && \
 source $HOME/.cargo/env 
 echo "🔍 Verifying Rust installation..."
