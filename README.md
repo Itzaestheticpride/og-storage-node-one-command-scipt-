@@ -1,4 +1,4 @@
 # og-storage-node-one-command-scipt-
 ```bash 
-https://github.com/Itzaestheticpride/og-storage-node-one-command-scipt- && cd og-storage-node-one-command-scipt- && sudo bash "./automation for og node setup.sh"
+git clone https://github.com/Itzaestheticpride/og-storage-node-one-command-scipt- && cd og-storage-node-one-command-scipt- && chmod +x automation for og node setup.sh && sudo bash "./automation for og node setup.sh"
 ```
