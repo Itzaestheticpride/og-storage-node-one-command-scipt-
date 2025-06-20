@@ -60,6 +60,7 @@ git submodule update --init
 
 echo "🔧 Building the node..."
 cargo build --release 
+sudo cp /root/og-storage-node-one-command-scipt-/0g-storage-node/
 echo "⚙️ Setting up configuration..."
 rm -rf $HOME/0g-storage-node/run/config.toml && \
 curl -o $HOME/0g-storage-node/run/config.toml https://raw.githubusercontent.com/Mayankgg01/0G-Storage-Node-Guide/main/config.toml 
