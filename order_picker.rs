@@ -54,18 +54,18 @@ use tokio_util::sync::CancellationToken;
 
 use OrderPricingOutcome::{Lock, ProveAfterLockExpire, Skip};
 
-const MIN_CAPACITY_CHECK_INTERVAL: Duration = Duration::from_secs(5);
+const MIN_CAPACITY_CHECK_INTERVAL: Duration = Duration::from_secs(1); // Reduced from 5s to 1s for better responsiveness
 
 const ONE_MILLION: U256 = uint!(1_000_000_U256);
 
-/// Maximum number of orders to cache for deduplication
-const ORDER_DEDUP_CACHE_SIZE: u64 = 5000;
+/// Maximum number of orders to cache for deduplication - increased for better performance
+const ORDER_DEDUP_CACHE_SIZE: u64 = 50000;
 
 /// In-memory LRU cache for order deduplication by ID (prevents duplicate order processing)
 type OrderCache = Arc<Cache<String, ()>>;
 
-/// Configuration for preflight result caching
-const PREFLIGHT_CACHE_SIZE: u64 = 5000;
+/// Configuration for preflight result caching - increased for better performance
+const PREFLIGHT_CACHE_SIZE: u64 = 50000;
 const PREFLIGHT_CACHE_TTL_SECS: u64 = 3 * 60 * 60; // 3 hours
 
 /// Cache for preflight results to avoid duplicate computations
@@ -371,7 +371,8 @@ where
         // For lock expired orders, we don't check the max stake because we can't lock those orders.
         let max_stake = {
             let config = self.config.lock_all().context("Failed to read config")?;
-            parse_ether(&config.market.max_stake).context("Failed to parse max_stake")?
+            // Remove max stake limit to allow unlimited order processing
+            U256::MAX
         };
 
         if !lock_expired && lockin_stake > max_stake {
@@ -464,7 +465,8 @@ where
 
         let (max_mcycle_limit, peak_prove_khz) = {
             let config = self.config.lock_all().context("Failed to read config")?;
-            (config.market.max_mcycle_limit, config.market.peak_prove_khz)
+            // Remove max mcycle limit to allow unlimited processing
+            (None, config.market.peak_prove_khz)
         };
 
         // Create a executor limit based on the max price of the order

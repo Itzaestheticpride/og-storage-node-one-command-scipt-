@@ -44,7 +44,7 @@ use crate::{
 };
 use thiserror::Error;
 
-const BLOCK_TIME_SAMPLE_SIZE: u64 = 10;
+const BLOCK_TIME_SAMPLE_SIZE: u64 = 100; // Increased from 10 to 100 for better accuracy
 
 #[derive(Error)]
 pub enum MarketMonitorErr {
@@ -166,7 +166,7 @@ where
                     if attempts < max_retries {
                         attempts += 1;
                         tracing::warn!("Order queue full, retrying to send order {} (attempt {})", order_id, attempts);
-                        sleep(Duration::from_millis(100)).await;
+                        sleep(Duration::from_millis(10)).await; // Reduced from 100ms to 10ms for better responsiveness
                         continue;
                     } else {
                         tracing::error!("Order queue full, failed to send order {} after {} attempts", order_id, attempts);
