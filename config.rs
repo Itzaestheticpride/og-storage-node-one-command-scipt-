@@ -33,11 +33,13 @@ use crate::{errors::CodedError, impl_coded_debug};
 
 mod defaults {
     pub const fn max_journal_bytes() -> usize {
-        10_000
+        // Increased from 10KB to 1MB for better performance
+        1_000_000
     }
 
     pub const fn batch_max_journal_bytes() -> usize {
-        10_000
+        // Increased from 10KB to 1MB for better performance
+        1_000_000
     }
 
     pub const fn lockin_gas_estimate() -> u64 {
@@ -75,7 +77,8 @@ mod defaults {
     }
 
     pub const fn max_concurrent_preflights() -> u32 {
-        4
+        // Increased from 4 to 50 for better performance
+        50
     }
 }
 
@@ -261,17 +264,17 @@ impl Default for MarketConf {
             mcycle_price: "0.00001".to_string(),
             mcycle_price_stake_token: "0.001".to_string(),
             assumption_price: None,
-            max_mcycle_limit: None,
+            max_mcycle_limit: None, // Removed limit to allow unlimited processing
             priority_requestor_addresses: None,
-            max_journal_bytes: defaults::max_journal_bytes(), // 10 KB
+            max_journal_bytes: defaults::max_journal_bytes(), // Increased to 1MB
             peak_prove_khz: None,
             min_deadline: 120, // 2 mins
-            lookback_blocks: 100,
-            max_stake: "0.1".to_string(),
+            lookback_blocks: 1000, // Increased from 100 to 1000 for better order discovery
+            max_stake: "1000000".to_string(), // Increased from 0.1 to 1M to allow high-value orders
             allow_client_addresses: None,
             deny_requestor_addresses: None,
             lockin_priority_gas: None,
-            max_file_size: 50_000_000,
+            max_file_size: 500_000_000, // Increased from 50MB to 500MB
             max_fetch_retries: Some(2),
             lockin_gas_estimate: defaults::lockin_gas_estimate(),
             fulfill_gas_estimate: defaults::fulfill_gas_estimate(),
@@ -281,9 +284,9 @@ impl Default for MarketConf {
             balance_error_threshold: None,
             stake_balance_warn_threshold: None,
             stake_balance_error_threshold: None,
-            max_concurrent_proofs: None,
+            max_concurrent_proofs: None, // Removed limit to allow unlimited concurrent proofs
             cache_dir: None,
-            max_concurrent_preflights: defaults::max_concurrent_preflights(),
+            max_concurrent_preflights: defaults::max_concurrent_preflights(), // Increased to 50
             order_pricing_priority: OrderPricingPriority::default(),
             order_commitment_priority: OrderCommitmentPriority::default(),
         }
@@ -348,12 +351,12 @@ impl Default for ProverConf {
     fn default() -> Self {
         Self {
             status_poll_retry_count: 0,
-            status_poll_ms: 1000,
+            status_poll_ms: 100, // Reduced from 1000ms to 100ms for better responsiveness
             bonsai_r0_zkvm_ver: None,
             req_retry_count: 0,
-            req_retry_sleep_ms: 1000,
+            req_retry_sleep_ms: 100, // Reduced from 1000ms to 100ms for better responsiveness
             proof_retry_count: 0,
-            proof_retry_sleep_ms: 1000,
+            proof_retry_sleep_ms: 100, // Reduced from 1000ms to 100ms for better responsiveness
             set_builder_guest_path: None,
             assessor_set_guest_path: None,
             max_critical_task_retries: None,
@@ -411,7 +414,7 @@ impl Default for BatcherConfig {
             batch_max_fees: None,
             block_deadline_buffer_secs: 120,
             txn_timeout: None,
-            batch_poll_time_ms: Some(1000),
+            batch_poll_time_ms: Some(100), // Reduced from 1000ms to 100ms for better responsiveness
             single_txn_fulfill: false,
             withdraw: false,
             max_submission_attempts: defaults::max_submission_attempts(),
