@@ -55,7 +55,8 @@ impl Bonsai {
         ) = {
             let config = config.lock_all().unwrap();
             (
-                config.prover.bonsai_r0_zkvm_ver.as_ref().ok_or(ConfigErr::InvalidConfig)?.clone(),
+                // Use default version if not specified, especially for Bento mode
+                config.prover.bonsai_r0_zkvm_ver.clone().unwrap_or_else(|| "0.21.0".to_string()),
                 config.prover.req_retry_count,
                 config.prover.req_retry_sleep_ms,
                 config.prover.status_poll_ms,
@@ -64,9 +65,16 @@ impl Bonsai {
         };
 
         let prover_type = if api_key.is_empty() { ProverType::Bento } else { ProverType::Bonsai };
+        
+        // For Bento mode, use a default URL if none is provided
+        let final_api_url = if api_url.is_empty() && api_key.is_empty() {
+            "https://api.bentoml.com" // Default Bento API URL
+        } else {
+            api_url
+        };
 
         Ok(Self {
-            client: BonsaiClient::from_parts(api_url.into(), api_key.into(), &risc0_ver)?,
+            client: BonsaiClient::from_parts(final_api_url.into(), api_key.into(), &risc0_ver)?,
             req_retry_sleep_ms,
             req_retry_count,
             status_poll_ms,

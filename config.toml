@@ -1,0 +1,54 @@
+[market]
+mcycle_price = "0.00001"
+mcycle_price_stake_token = "0.001"
+max_mcycle_limit = null
+priority_requestor_addresses = null
+max_journal_bytes = 1000000
+peak_prove_khz = null
+min_deadline = 120
+lookback_blocks = 1000
+max_stake = "1000000"
+allow_client_addresses = null
+deny_requestor_addresses = null
+lockin_priority_gas = null
+max_file_size = 500000000
+max_fetch_retries = 2
+lockin_gas_estimate = 200000
+fulfill_gas_estimate = 750000
+groth16_verify_gas_estimate = 250000
+additional_proof_cycles = 2270000
+balance_warn_threshold = null
+balance_error_threshold = null
+stake_balance_warn_threshold = null
+stake_balance_error_threshold = null
+max_concurrent_proofs = null
+cache_dir = null
+max_concurrent_preflights = 50
+order_pricing_priority = "random"
+order_commitment_priority = "random"
+
+[prover]
+status_poll_retry_count = 0
+status_poll_ms = 100
+bonsai_r0_zkvm_ver = null
+req_retry_count = 0
+req_retry_sleep_ms = 100
+proof_retry_count = 0
+proof_retry_sleep_ms = 100
+set_builder_guest_path = null
+assessor_set_guest_path = null
+max_critical_task_retries = null
+reaper_interval_secs = 60
+reaper_grace_period_secs = 10800
+
+[batcher]
+batch_max_time = null
+min_batch_size = 2
+batch_max_journal_bytes = 1000000
+batch_max_fees = null
+block_deadline_buffer_secs = 120
+txn_timeout = null
+batch_poll_time_ms = 100
+single_txn_fulfill = false
+withdraw = false
+max_submission_attempts = 2

@@ -477,15 +477,11 @@ mod tests {
     ) -> Args {
         let (bonsai_api_url, bonsai_api_key) = match is_dev_mode() {
             true => (None, None),
-            false => (
-                Some(
-                    Url::parse(
-                        &std::env::var("BONSAI_API_URL").expect("BONSAI_API_URL must be set"),
-                    )
-                    .unwrap(),
-                ),
-                Some(std::env::var("BONSAI_API_KEY").expect("BONSAI_API_KEY must be set")),
-            ),
+            false => {
+                // For Bento mode, we don't need Bonsai API credentials
+                // Use empty values to indicate Bento mode
+                (None, None)
+            },
         };
 
         Args {
